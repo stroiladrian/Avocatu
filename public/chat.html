@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chat | Avocatu'</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="chat-wrap">
+  <header class="nav">
+    <a class="logo" href="/"><span class="mark">§</span> Avocatu'</a>
+    <div class="tools"><button class="link" id="clear" type="button">Șterge istoricul</button></div>
+  </header>
+
+  <div id="log"><div class="msgs" id="msgs"></div></div>
+
+  <div class="composer">
+    <form id="form">
+      <textarea id="input" rows="1" placeholder="Scrie întrebarea ta juridică..." autofocus></textarea>
+      <button class="btn" type="submit" id="send">Trimite</button>
+    </form>
+    <div class="note">Avocatu' poate greși. Verifică articolele pe legislatie.just.ro. Nu este un substitut pentru un avocat.</div>
+  </div>
+</div>
+
+<script>
+const KEY = "avocatu_history_v1";
+const msgsEl = document.getElementById("msgs");
+const logEl = document.getElementById("log");
+const input = document.getElementById("input");
+const form = document.getElementById("form");
+const sendBtn = document.getElementById("send");
+const SUGGESTIONS = [
+  "Care sunt pașii pentru înființarea unui SRL?",
+  "Pot fi concediat în perioada de probă fără preaviz?",
+  "Cum contest o amendă contravențională?",
+  "Ce drepturi am ca chiriaș?"
+];
+let history = [];
+try { history = JSON.parse(localStorage.getItem(KEY) || "[]"); } catch { history = []; }
+
+function md(text){
+  const esc = text.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  const inline = (l) => l.replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>").replace(/(^|[^*])\*([^*\s][^*]*?)\*/g,"$1<em>$2</em>");
+  const out = []; let list = false;
+  for (const raw of esc.split("\n")) {
+    const line = raw.trimEnd();
+    let m;
+    if ((m = line.match(/^\s*[-*]\s+(.*)$/))) {
+      if (!list) { out.push("<ul>"); list = true; }
+      out.push("<li>" + inline(m[1]) + "</li>");
+      continue;
+    }
+    if (list) { out.push("</ul>"); list = false; }
+    if ((m = line.match(/^#{1,6}\s+(.*)$/))) out.push("<h4>" + inline(m[1]) + "</h4>");
+    else if (/^\s*(-{3,}|\*{3,})\s*$/.test(line)) out.push("<hr>");
+    else if (line.trim() === "") out.push("");
+    else out.push("<p>" + inline(line) + "</p>");
+  }
+  if (list) out.push("</ul>");
+  return out.join("");
+}
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(history)); } catch {} }
+function addBubble(role, text, cls){
+  const d = document.createElement("div");
+  d.className = "msg " + (role === "user" ? "user" : "bot") + (cls ? " " + cls : "");
+  if (role === "user" || cls) d.textContent = text; else d.innerHTML = md(text);
+  msgsEl.appendChild(d);
+  logEl.scrollTop = logEl.scrollHeight;
+  return d;
+}
+function renderEmpty(){
+  msgsEl.innerHTML = "";
+  const e = document.createElement("div");
+  e.className = "empty";
+  e.innerHTML = "<h2>Cu ce te pot ajuta?</h2><p>Întreabă despre legislația din România.</p>";
+  const chips = document.createElement("div");
+  chips.className = "chips";
+  SUGGESTIONS.forEach(s => {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "chip"; b.textContent = s;
+    b.onclick = () => ask(s);
+    chips.appendChild(b);
+  });
+  e.appendChild(chips);
+  msgsEl.appendChild(e);
+}
+function renderAll(){
+  if (!history.length) return renderEmpty();
+  msgsEl.innerHTML = "";
+  history.forEach(m => addBubble(m.role, m.content));
+}
+
+async function ask(text){
+  text = (text || "").trim();
+  if (!text || sendBtn.disabled) return;
+  if (!history.length) msgsEl.innerHTML = "";
+  history.push({ role: "user", content: text });
+  addBubble("user", text);
+  input.value = ""; input.style.height = "auto";
+  sendBtn.disabled = true;
+  const bubble = addBubble("assistant", "…");
+  let acc = "";
+  try {
+    const r = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ messages: history })
+    });
+    if (!r.ok) {
+      const j = await r.json().catch(() => ({}));
+      throw new Error(j.error || "Eroare de server");
+    }
+    const reader = r.body.getReader();
+    const dec = new TextDecoder();
+    let buf = "";
+    for (;;) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      buf += dec.decode(value, { stream: true });
+      const parts = buf.split("\n\n");
+      buf = parts.pop();
+      for (const p of parts) {
+        if (!p.startsWith("data: ")) continue;
+        const data = p.slice(6);
+        if (data === "[DONE]") continue;
+        const j = JSON.parse(data);
+        if (j.error) throw new Error(j.error);
+        acc += j.t || "";
+        bubble.innerHTML = md(acc);
+        logEl.scrollTop = logEl.scrollHeight;
+      }
+    }
+    history.push({ role: "assistant", content: acc });
+    save();
+  } catch (e) {
+    history.pop();
+    bubble.textContent = e.message;
+    bubble.classList.add("err");
+  } finally {
+    sendBtn.disabled = false;
+    input.focus();
+  }
+}
+
+form.addEventListener("submit", e => { e.preventDefault(); ask(input.value); });
+input.addEventListener("keydown", e => {
+  if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); ask(input.value); }
+});
+input.addEventListener("input", () => {
+  input.style.height = "auto";
+  input.style.height = Math.min(input.scrollHeight, 160) + "px";
+});
+document.getElementById("clear").onclick = () => {
+  history = []; save(); renderEmpty();
+};
+
+renderAll();
+const q = new URLSearchParams(location.search).get("q");
+if (q) { history.length = 0; history = []; history_reset(); ask(q); }
+function history_reset(){ msgsEl.innerHTML = ""; }
+</script>
+</body>
+</html>

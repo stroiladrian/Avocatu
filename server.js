@@ -1,6 +1,11 @@
 const express = require("express");
 const path = require("path");
 
+// Load keys from a local .env file (gitignored). Real environment variables take priority.
+try {
+  process.loadEnvFile(path.join(__dirname, ".env"));
+} catch {}
+
 const app = express();
 app.use(express.json({ limit: "1mb" }));
 app.use(express.static(path.join(__dirname, "public")));

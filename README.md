@@ -6,10 +6,12 @@ AI legal research assistant for Romanian law. Free to run: uses a free-tier API 
 
 ```bash
 npm install
-export GEMINI_API_KEY=...     # free: https://aistudio.google.com/apikey
-# or: export GROQ_API_KEY=... # free: https://console.groq.com/keys
-npm start                     # http://localhost:3000
+cp .env.example .env   # then paste your free key into .env
+npm start              # http://localhost:3000
 ```
+
+Free keys: Gemini at https://aistudio.google.com/apikey or Groq at https://console.groq.com/keys.
+The `.env` file is gitignored, so the key never goes to GitHub.
 
 Optional env: `PROVIDER` (gemini|groq), `GEMINI_MODEL`, `GROQ_MODEL`, `PORT`.
 Free-tier limits and model names change; if a model errors, set the model env var to a current one.

@@ -1,3 +1,9 @@
+/* Fonts: Playfair Display + Inter (Google Fonts, SIL OFL), self-hosted in /fonts */
+@font-face{font-family:"Playfair Display";font-style:normal;font-weight:400 900;font-display:swap;src:url(fonts/playfair-display-latin-ext-wght-normal.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Playfair Display";font-style:normal;font-weight:400 900;font-display:swap;src:url(fonts/playfair-display-latin-wght-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Inter";font-style:normal;font-weight:100 900;font-display:swap;src:url(fonts/inter-latin-ext-wght-normal.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Inter";font-style:normal;font-weight:100 900;font-display:swap;src:url(fonts/inter-latin-wght-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+
 :root{
   --bg:#f6f6f7;
   --panel:#ffffff;
@@ -12,6 +18,7 @@
   --green:#3a9d6b;
   --danger:#c0392b;
   --shadow:0 1px 2px rgba(20,22,28,.04),0 4px 14px rgba(20,22,28,.05);
+  --serif:"Playfair Display","Iowan Old Style","Palatino Linotype",Georgia,serif;
   --font:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
 }
 *{box-sizing:border-box}
@@ -26,8 +33,8 @@ svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stro
 
 /* ---------- sidebar ---------- */
 .side{background:var(--panel);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:18px 14px;gap:6px;min-width:0;overflow-y:auto}
-.brand{display:flex;align-items:center;gap:10px;padding:2px 8px 14px;font-weight:600;font-size:17px;letter-spacing:-.01em}
-.mark{width:34px;height:34px;border-radius:10px;background:linear-gradient(180deg,var(--cta-top),var(--cta-bot));color:#fff;display:grid;place-items:center;font:600 19px Georgia,serif;flex:none;box-shadow:0 1px 0 rgba(255,255,255,.18) inset}
+.brand{display:flex;align-items:center;gap:10px;padding:2px 8px 14px;font-family:var(--serif);font-weight:700;font-size:20px;letter-spacing:-.005em}
+.mark{width:34px;height:34px;border-radius:10px;background:linear-gradient(180deg,var(--cta-top),var(--cta-bot));color:#fff;display:grid;place-items:center;font:700 20px var(--serif);flex:none;box-shadow:0 1px 0 rgba(255,255,255,.18) inset}
 .btn-cta{display:flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:10px;padding:12px 16px;color:#fff;font-weight:500;background:linear-gradient(180deg,var(--cta-top),var(--cta-bot));box-shadow:0 1px 0 rgba(255,255,255,.14) inset,0 6px 14px rgba(12,14,22,.22)}
 .btn-cta:hover{filter:brightness(1.15)}
 .btn-cta:disabled{opacity:.55;cursor:default;filter:none}
@@ -53,11 +60,11 @@ svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stro
 [data-view="chat"] #homeView{display:none}
 
 /* ---------- home ---------- */
-#homeView{flex:1;overflow-y:auto;display:flex;flex-direction:column;align-items:center;padding:42px 20px 28px}
-.col{width:100%;max-width:690px;display:flex;flex-direction:column;align-items:center;margin:auto 0}
+#homeView{flex:1;overflow-y:auto;display:flex;flex-direction:column;align-items:center;padding:clamp(28px,11vh,120px) 20px 28px}
+.col{width:100%;max-width:690px;display:flex;flex-direction:column;align-items:center;margin:0 auto}
 
-h1{margin:0;font-size:clamp(28px,4.2vw,38px);letter-spacing:-.025em;font-weight:600;text-align:center}
-.sub{margin:8px 0 30px;font-size:17px;text-align:center;color:#2a2d3a}
+h1{margin:0;font-family:var(--serif);font-variant-numeric:lining-nums;font-size:clamp(32px,4.6vw,46px);line-height:1.1;letter-spacing:-.01em;font-weight:600;text-align:center}
+.sub{margin:12px 0 30px;font-size:17px;text-align:center;color:#2a2d3a}
 
 .ask{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:10px 10px 10px 18px;display:flex;align-items:center;gap:12px}
 .ask:focus-within{border-color:#c8cbe0;box-shadow:0 0 0 4px rgba(91,61,245,.08),var(--shadow)}
@@ -88,7 +95,7 @@ h1{margin:0;font-size:clamp(28px,4.2vw,38px);letter-spacing:-.025em;font-weight:
 .msg.bot{align-self:flex-start;max-width:100%;background:var(--panel);border:1px solid var(--line);box-shadow:var(--shadow);line-height:1.6}
 .msg.bot p{margin:0 0 .7em}
 .msg.bot p:last-child{margin-bottom:0}
-.msg.bot h4{margin:1em 0 .4em;font-size:1.02rem}
+.msg.bot h4{margin:1em 0 .4em;font-family:var(--serif);font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1;font-size:1.12rem;font-weight:700}
 .msg.bot h4:first-child{margin-top:0}
 .msg.bot ul{margin:.4em 0 .8em;padding-left:1.3em}
 .msg.bot hr{border:0;border-top:1px solid var(--line);margin:1em 0}
@@ -103,7 +110,7 @@ h1{margin:0;font-size:clamp(28px,4.2vw,38px);letter-spacing:-.025em;font-weight:
 /* ---------- dialog + toast ---------- */
 dialog{border:1px solid var(--line);border-radius:16px;padding:22px;width:min(440px,92vw);box-shadow:0 20px 60px rgba(12,14,22,.25);color:var(--ink);background:var(--panel)}
 dialog::backdrop{background:rgba(12,14,22,.4)}
-dialog h3{margin:0 0 6px;font-size:18px}
+dialog h3{margin:0 0 6px;font-family:var(--serif);font-size:21px}
 dialog p{margin:0 0 14px;color:var(--muted);font-size:14px}
 dialog p a{text-decoration:underline;text-underline-offset:2px}
 dialog label{display:block;font-size:13px;font-weight:500;margin-bottom:6px}
@@ -121,7 +128,7 @@ dialog input:focus{border-color:#c8cbe0;background:#fff}
 @media (max-width:860px){
   .app,.app.collapsed{grid-template-columns:1fr}
   .side{display:none}
-  #homeView{padding-top:26px}
+  #homeView{padding-top:clamp(24px,7vh,60px)}
   .ask{padding-left:14px}
   .tools .chip span.l2{display:none}
   .newmini{display:grid}

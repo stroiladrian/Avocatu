@@ -27,20 +27,16 @@
     <symbol id="globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></symbol>
     <symbol id="scan" viewBox="0 0 24 24"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="2.5"/></symbol>
     <symbol id="wave" viewBox="0 0 24 24"><path d="M5 10v4M9 6.5v11M13 9v6M17 4.5v15M21 11v2"/></symbol>
-    <symbol id="share" viewBox="0 0 24 24"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M16 6l-4-4-4 4M12 2v13"/></symbol>
     <symbol id="plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
     <symbol id="timer" viewBox="0 0 24 24"><circle cx="12" cy="13.5" r="7.5"/><path d="M12 9.5v4l2.2 2M9.5 2.5h5"/></symbol>
     <symbol id="back" viewBox="0 0 24 24"><path d="m11 17-5-5 5-5M18 17l-5-5 5-5"/></symbol>
-    <symbol id="user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
-    <symbol id="burger" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="sliders" viewBox="0 0 24 24"><path d="M4 6h8M18 6h2M4 12h2M12 12h8M4 18h10M20 18h0"/><circle cx="15" cy="6" r="2.2"/><circle cx="9" cy="12" r="2.2"/><circle cx="17" cy="18" r="2.2"/></symbol>
     <symbol id="trash" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></symbol>
     <symbol id="send" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></symbol>
   </defs>
 </svg>
 
 <div class="app" id="app" data-view="home">
-  <div class="scrim" id="scrim"></div>
-
   <aside class="side">
     <a class="brand" href="./"><div class="mark">§</div><span class="t">Avocatu'</span></a>
 
@@ -57,29 +53,17 @@
     <div class="spacer"></div>
 
     <button class="ghost" id="clearHist" type="button"><svg class="i"><use href="#trash"/></svg><span class="label">Șterge istoricul</span></button>
+    <button class="ghost" id="settings" type="button"><svg class="i"><use href="#sliders"/></svg><span class="label">Setări</span></button>
     <div class="plain"><svg class="i"><use href="#timer"/></svg><span class="label">Plan gratuit · fără card</span></div>
     <button class="ghost" id="collapse" type="button"><svg class="i"><use href="#back"/></svg><span class="label">Restrânge meniul</span></button>
   </aside>
 
   <div class="main">
-    <header class="top">
-      <div class="l">
-        <button class="menu-btn" id="menu" type="button" aria-label="Meniu"><svg class="i"><use href="#burger"/></svg></button>
-        <button class="share" id="share" type="button"><svg class="i" style="width:17px;height:17px"><use href="#share"/></svg><span>Distribuie</span></button>
-      </div>
-      <div class="title" id="title">Conversație nouă</div>
-      <button class="user" id="settings" type="button" aria-label="Setări">
-        <div class="avatar"><svg class="i"><use href="#user"/></svg></div>
-        <div class="who"><b>Setări</b><span>cont gratuit</span></div>
-        <svg class="i" style="width:16px;height:16px"><use href="#down"/></svg>
-      </button>
-    </header>
 
     <div class="stage">
       <!-- Home -->
       <main id="homeView">
         <div class="col">
-          <div class="orb" aria-hidden="true"></div>
           <h1>Bună! Sunt Avocatu'</h1>
           <p class="sub">Cu ce întrebare juridică te pot ajuta?</p>
 
@@ -103,7 +87,7 @@
             <button class="row" type="button" data-q="Poate vecinul să planteze pomi lângă zidul casei mele?"><svg class="bolt"><use href="#bolt"/></svg>Poate vecinul să planteze pomi lângă zidul casei mele?<span class="go"><svg class="i"><use href="#chev"/></svg></span></button>
           </div>
 
-          <p class="note">Avocatu' poate greși. Verifică articolele pe <a href="https://legislatie.just.ro" target="_blank" rel="noopener">legislatie.just.ro</a>. Nu înlocuiește un avocat.</p>
+          <p class="note">Avocatu' poate greși. Verifică articolele pe <a href="https://legislatie.just.ro" target="_blank" rel="noopener">legislatie.just.ro</a>. Nu înlocuiește un avocat. · <a href="#" class="settingsLink">Setări</a></p>
         </div>
       </main>
 
@@ -112,10 +96,11 @@
         <div id="log"><div class="msgs" id="msgs"></div></div>
         <div class="composer">
           <form id="chatForm">
-            <textarea id="chatInput" rows="1" placeholder="Scrie întrebarea ta juridică..."></textarea>
+            <button class="newmini" id="composerNew" type="button" aria-label="Conversație nouă"><svg class="i"><use href="#plus"/></svg></button>
+            <textarea id="chatInput" rows="1" placeholder="Scrie o întrebare..."></textarea>
             <button class="btn-cta" id="send" type="submit" aria-label="Trimite"><svg class="i"><use href="#send"/></svg></button>
           </form>
-          <p class="note">Avocatu' poate greși. Verifică articolele pe <a href="https://legislatie.just.ro" target="_blank" rel="noopener">legislatie.just.ro</a>. Nu înlocuiește un avocat.</p>
+          <p class="note">Avocatu' poate greși. Verifică articolele pe <a href="https://legislatie.just.ro" target="_blank" rel="noopener">legislatie.just.ro</a>. Nu înlocuiește un avocat. · <a href="#" class="settingsLink">Setări</a></p>
         </div>
       </section>
     </div>

@@ -1,7 +1,7 @@
 (() => {
 "use strict";
 const $ = (id) => document.getElementById(id);
-const app = $("app"), msgs = $("msgs"), log = $("log"), titleEl = $("title");
+const app = $("app"), msgs = $("msgs"), log = $("log");
 const chatInput = $("chatInput"), sendBtn = $("send");
 const HISTORY_KEY = "avocatu_history_v1";
 const KEY_NAME = "avocatu_gemini_key";
@@ -75,22 +75,14 @@ function bubble(role, text, cls) {
   return d;
 }
 
-function setTitle() {
-  const first = history.find((m) => m.role === "user");
-  const t = first ? first.content : "Conversație nouă";
-  titleEl.textContent = t.length > 70 ? t.slice(0, 67) + "…" : t;
-}
-
 function showHome() {
   app.dataset.view = "home";
   msgs.innerHTML = "";
-  setTitle();
   $("homeInput").focus({ preventScroll: true });
 }
 
 function showChat() {
   app.dataset.view = "chat";
-  setTitle();
 }
 
 function render() {
@@ -252,7 +244,6 @@ async function ask(text) {
 
   history.push({ role: "user", content: text });
   if (app.dataset.view !== "chat") { msgs.innerHTML = ""; showChat(); }
-  setTitle();
   bubble("user", text);
   const out = bubble("assistant", "…");
   let acc = "";
@@ -294,27 +285,24 @@ document.querySelectorAll("[data-q]").forEach((b) => b.addEventListener("click",
 document.querySelectorAll("[data-soon]").forEach((b) => b.addEventListener("click", (e) => {
   e.preventDefault();
   toast(b.dataset.soon + " vor fi disponibile în curând.");
-  app.classList.remove("open");
 }));
 
 function newConversation() {
   if (busy) return;
   history = []; saveHistory(); showHome();
-  app.classList.remove("open");
 }
 $("newChat").addEventListener("click", newConversation);
 $("clearHist").addEventListener("click", () => { newConversation(); toast("Istoricul a fost șters."); });
-$("navChat").addEventListener("click", (e) => { e.preventDefault(); app.classList.remove("open"); history.length ? showChat() : showHome(); });
+$("navChat").addEventListener("click", (e) => { e.preventDefault(); history.length ? showChat() : showHome(); });
 $("collapse").addEventListener("click", () => app.classList.toggle("collapsed"));
-$("menu").addEventListener("click", () => app.classList.toggle("open"));
-$("scrim").addEventListener("click", () => app.classList.remove("open"));
-$("settings").addEventListener("click", async () => { if (mode === "unknown") await detectMode(); openDialog({ needKey: false }); });
-$("share").addEventListener("click", async () => {
-  const url = location.origin + location.pathname;
-  try { await navigator.clipboard.writeText(url); toast("Linkul a fost copiat."); }
-  catch { toast(url); }
-});
-
+async function openSettings(e) {
+  if (e) e.preventDefault();
+  if (mode === "unknown") await detectMode();
+  openDialog({ needKey: false });
+}
+$("settings").addEventListener("click", openSettings);
+document.querySelectorAll(".settingsLink").forEach((a) => a.addEventListener("click", openSettings));
+$("composerNew").addEventListener("click", newConversation);
 /* ---------- start ---------- */
 render();
 detectMode();

@@ -25,9 +25,11 @@ With `npm start` the same UI uses the local server and `.env` key instead.
 
 ## Structure
 
-- `server.js`: Express server, streams answers from `/api/chat` (SSE)
-- `public/index.html`: landing page
-- `public/chat.html`: chat UI (history kept in browser localStorage)
+- `server.js`: Express server; `/api/chat` streams answers (SSE), `/api/health` lets the page detect server mode
+- `public/index.html`: the whole app (sidebar, home screen, chat) in one page
+- `public/app.js`: chat logic, markdown rendering, server mode and direct-Gemini mode, key dialog
+- `public/style.css`: design system (light grey background, near-black actions)
+- `public/chat.html`, `public/demo.html`: redirect to `index.html`
 
 ## Next steps
 

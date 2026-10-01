@@ -116,6 +116,8 @@ async function geminiFallbacks() {
 const isTransient = (err) => /\b(503|429|500|404)\b/.test(err.message);
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+app.get("/api/health", (req, res) => res.json({ ok: true, provider: PROVIDER }));
+
 app.post("/api/chat", async (req, res) => {
   if (!PROVIDER) {
     return res.status(503).json({

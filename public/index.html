@@ -5,57 +5,141 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Avocatu' | Juristul tău virtual</title>
 <meta name="description" content="Avocatu' explică legea pe înțelesul tău și îți arată temeiul legal din legislația românească.">
-<link rel="stylesheet" href="style.css">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<meta name="theme-color" content="#7a1f2b">
+<meta name="theme-color" content="#f6f6f7">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header class="nav">
-  <a class="logo" href="./"><span class="mark">§</span> Avocatu'</a>
-  <a class="btn" href="chat.html">Încearcă gratuit →</a>
-</header>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="scale" viewBox="0 0 24 24"><path d="M12 3v18M6 21h12M5 7h14"/><path d="M5 7l-3 7a3 3 0 0 0 6 0zM19 7l-3 7a3 3 0 0 0 6 0z"/></symbol>
+    <symbol id="doc" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></symbol>
+    <symbol id="cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+    <symbol id="book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5V21h16v-4"/></symbol>
+    <symbol id="tpl" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6.5A2.5 2.5 0 0 0 13.5 4h-7A2.5 2.5 0 0 0 4 6.5v7A2.5 2.5 0 0 0 6.5 16H8"/></symbol>
+    <symbol id="bolt" viewBox="0 0 24 24"><path d="M13.5 2 4.5 13.5h6L9.5 22l9-11.5h-6z"/></symbol>
+    <symbol id="chev" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+    <symbol id="down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="clip" viewBox="0 0 24 24"><path d="m21 11-8.5 8.5a5 5 0 0 1-7-7L14 4a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L15 7"/></symbol>
+    <symbol id="globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></symbol>
+    <symbol id="scan" viewBox="0 0 24 24"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="2.5"/></symbol>
+    <symbol id="wave" viewBox="0 0 24 24"><path d="M5 10v4M9 6.5v11M13 9v6M17 4.5v15M21 11v2"/></symbol>
+    <symbol id="share" viewBox="0 0 24 24"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M16 6l-4-4-4 4M12 2v13"/></symbol>
+    <symbol id="plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="timer" viewBox="0 0 24 24"><circle cx="12" cy="13.5" r="7.5"/><path d="M12 9.5v4l2.2 2M9.5 2.5h5"/></symbol>
+    <symbol id="back" viewBox="0 0 24 24"><path d="m11 17-5-5 5-5M18 17l-5-5 5-5"/></symbol>
+    <symbol id="user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+    <symbol id="burger" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="trash" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></symbol>
+    <symbol id="send" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></symbol>
+  </defs>
+</svg>
 
-<main>
-  <section class="hero">
-    <h1>Răspunsuri juridice rapide,<br>cu temei legal.</h1>
-    <p>Pune o întrebare despre legislația din România și primești o explicație clară, cu articolele pe care se bazează.</p>
-    <form class="ask" action="chat.html" method="get">
-      <input name="q" placeholder="Care sunt pașii pentru înființarea unui SRL?" autocomplete="off">
-      <button class="btn" type="submit">Întreabă</button>
-    </form>
-  </section>
+<div class="app" id="app" data-view="home">
+  <div class="scrim" id="scrim"></div>
 
-  <section class="who">
-    <h2>Cine poate folosi Avocatu'?</h2>
-    <div class="cards">
-      <article><h3>Profesioniști</h3><p>Generează idei de argumente, validează strategii și analizează contracte sau reglementări mai repede.</p></article>
-      <article><h3>Cetățeni</h3><p>Înțelege-ți drepturile și obligațiile, fără jargon, și afli dacă ai temei pentru o contestație.</p></article>
-      <article><h3>Studenți</h3><p>Explicații pe înțelesul tău pentru concepte juridice, cu trimiteri la textele de lege.</p></article>
+  <aside class="side">
+    <a class="brand" href="./"><div class="mark">§</div><span class="t">Avocatu'</span></a>
+
+    <button class="btn-cta" id="newChat" type="button"><svg class="i"><use href="#plus"/></svg><span class="label">Conversație nouă</span></button>
+
+    <nav class="nav">
+      <a class="on" href="#" id="navChat"><svg class="i"><use href="#scale"/></svg><span class="label">Întrebări juridice</span></a>
+      <a href="#" data-soon="Contractele"><svg class="i"><use href="#doc"/></svg><span class="label">Contracte</span><span class="soon">curând</span></a>
+      <a href="#" data-soon="Termenele"><svg class="i"><use href="#cal"/></svg><span class="label">Termene</span><span class="soon">curând</span></a>
+      <a href="https://legislatie.just.ro" target="_blank" rel="noopener"><svg class="i"><use href="#book"/></svg><span class="label">Legislație</span></a>
+      <a href="#" data-soon="Șabloanele"><svg class="i"><use href="#tpl"/></svg><span class="label">Șabloane</span><span class="soon">curând</span></a>
+    </nav>
+
+    <div class="spacer"></div>
+
+    <button class="ghost" id="clearHist" type="button"><svg class="i"><use href="#trash"/></svg><span class="label">Șterge istoricul</span></button>
+    <div class="plain"><svg class="i"><use href="#timer"/></svg><span class="label">Plan gratuit · fără card</span></div>
+    <button class="ghost" id="collapse" type="button"><svg class="i"><use href="#back"/></svg><span class="label">Restrânge meniul</span></button>
+  </aside>
+
+  <div class="main">
+    <header class="top">
+      <div class="l">
+        <button class="menu-btn" id="menu" type="button" aria-label="Meniu"><svg class="i"><use href="#burger"/></svg></button>
+        <button class="share" id="share" type="button"><svg class="i" style="width:17px;height:17px"><use href="#share"/></svg><span>Distribuie</span></button>
+      </div>
+      <div class="title" id="title">Conversație nouă</div>
+      <button class="user" id="settings" type="button" aria-label="Setări">
+        <div class="avatar"><svg class="i"><use href="#user"/></svg></div>
+        <div class="who"><b>Setări</b><span>cont gratuit</span></div>
+        <svg class="i" style="width:16px;height:16px"><use href="#down"/></svg>
+      </button>
+    </header>
+
+    <div class="stage">
+      <!-- Home -->
+      <main id="homeView">
+        <div class="col">
+          <div class="orb" aria-hidden="true"></div>
+          <h1>Bună! Sunt Avocatu'</h1>
+          <p class="sub">Cu ce întrebare juridică te pot ajuta?</p>
+
+          <form class="ask" id="homeForm">
+            <input id="homeInput" placeholder="Pune o întrebare juridică..." autocomplete="off">
+            <button class="btn-cta" type="submit">Întreabă</button>
+          </form>
+
+          <div class="tools">
+            <button class="chip" type="button" data-soon="Atașamentele"><svg class="i"><use href="#clip"/></svg><span class="l2">Atașează</span><svg class="i" style="width:14px;height:14px"><use href="#down"/></svg></button>
+            <a class="chip" href="https://legislatie.just.ro" target="_blank" rel="noopener"><svg class="i"><use href="#globe"/></svg><span class="l2">Caută în lege</span></a>
+            <button class="chip" type="button" data-soon="Îmbunătățirea întrebării"><svg class="i"><use href="#scan"/></svg><span class="l2">Îmbunătățește</span></button>
+            <button class="chip end" type="button" data-soon="Dictarea vocală" aria-label="Dictare vocală"><svg class="i"><use href="#wave"/></svg></button>
+          </div>
+
+          <div class="list" id="suggestions">
+            <button class="row" type="button" data-q="Care sunt pașii pentru înființarea unui SRL?"><svg class="bolt"><use href="#bolt"/></svg>Care sunt pașii pentru înființarea unui SRL?<span class="go"><svg class="i"><use href="#chev"/></svg></span></button>
+            <button class="row" type="button" data-q="Pot fi concediat în perioada de probă fără preaviz?"><svg class="bolt"><use href="#bolt"/></svg>Pot fi concediat în perioada de probă fără preaviz?<span class="go"><svg class="i"><use href="#chev"/></svg></span></button>
+            <button class="row" type="button" data-q="Cum contest o amendă contravențională?"><svg class="bolt"><use href="#bolt"/></svg>Cum contest o amendă contravențională?<span class="go"><svg class="i"><use href="#chev"/></svg></span></button>
+            <button class="row" type="button" data-q="Ce drepturi am ca chiriaș?"><svg class="bolt"><use href="#bolt"/></svg>Ce drepturi am ca chiriaș?<span class="go"><svg class="i"><use href="#chev"/></svg></span></button>
+            <button class="row" type="button" data-q="Poate vecinul să planteze pomi lângă zidul casei mele?"><svg class="bolt"><use href="#bolt"/></svg>Poate vecinul să planteze pomi lângă zidul casei mele?<span class="go"><svg class="i"><use href="#chev"/></svg></span></button>
+          </div>
+
+          <p class="note">Avocatu' poate greși. Verifică articolele pe <a href="https://legislatie.just.ro" target="_blank" rel="noopener">legislatie.just.ro</a>. Nu înlocuiește un avocat.</p>
+        </div>
+      </main>
+
+      <!-- Chat -->
+      <section id="chatView">
+        <div id="log"><div class="msgs" id="msgs"></div></div>
+        <div class="composer">
+          <form id="chatForm">
+            <textarea id="chatInput" rows="1" placeholder="Scrie întrebarea ta juridică..."></textarea>
+            <button class="btn-cta" id="send" type="submit" aria-label="Trimite"><svg class="i"><use href="#send"/></svg></button>
+          </form>
+          <p class="note">Avocatu' poate greși. Verifică articolele pe <a href="https://legislatie.just.ro" target="_blank" rel="noopener">legislatie.just.ro</a>. Nu înlocuiește un avocat.</p>
+        </div>
+      </section>
     </div>
-  </section>
+  </div>
+</div>
 
-  <section class="features">
-    <h2>Tot ce ai nevoie, într-un singur loc</h2>
-    <div class="cards">
-      <article><h3>Temei legal citat</h3><p>Fiecare răspuns indică articolele relevante, ca să poți verifica sursa oficială.</p></article>
-      <article><h3>Explicații pe înțeles</h3><p>Concepte complexe traduse în pași practici, potrivite întrebării tale.</p></article>
-      <article><h3>Confidențialitate</h3><p>Conversațiile rămân în browserul tău și le poți șterge oricând.</p></article>
+<dialog id="dlg">
+  <form method="dialog">
+    <h3 id="dlgTitle">Setări</h3>
+    <p id="dlgText"></p>
+    <div id="keyRow">
+      <label for="keyInput">Cheie Gemini (gratuită)</label>
+      <input id="keyInput" type="password" autocomplete="off" placeholder="Lipește cheia aici">
+      <p style="margin:8px 0 0;font-size:12.5px">Rămâne doar în browserul tău și este trimisă numai către Google. Creează una gratuit la <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a>.</p>
     </div>
-  </section>
+    <div class="actions">
+      <button class="btn-cta" id="dlgSave" value="save">Salvează</button>
+      <button class="ghost" value="cancel">Închide</button>
+      <button class="ghost" id="dlgForget" value="forget">Șterge cheia</button>
+    </div>
+  </form>
+</dialog>
+<div class="toast" id="toast" role="status"></div>
 
-  <section class="faq">
-    <h2>Întrebări frecvente</h2>
-    <details><summary>Înlocuiește Avocatu' un avocat?</summary><p>Nu. Avocatu' oferă informații și ușurează partea de documentare. Pentru strategii complexe sau reprezentare în instanță ai nevoie de un avocat.</p></details>
-    <details><summary>Cât de precise sunt răspunsurile?</summary><p>Modelele AI pot greși sau pot cita o versiune depășită a legii. Verifică mereu articolele pe legislatie.just.ro.</p></details>
-    <details><summary>Sunt datele mele în siguranță?</summary><p>Istoricul se păstrează local, în browser. Mesajele sunt trimise serverului doar pentru a genera răspunsul.</p></details>
-  </section>
-</main>
-
-<footer>
-  <p>Avocatu' nu oferă consultanță juridică și nu este un substitut pentru un avocat.</p>
-</footer>
+<script src="app.js"></script>
 </body>
 </html>
